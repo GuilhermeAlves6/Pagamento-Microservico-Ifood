@@ -30,8 +30,8 @@ public class PagamentoService{
 
     }
     public PagamentoDto getById(Long id) {
-        Optional<Pagamento> optionalPagamento = repository.findById(id);
-        Pagamento pagamento = optionalPagamento.orElseThrow(EntityExistsException::new);
+        Optional<Pagamento> optinalPagamento = repository.findById(id);
+        Pagamento pagamento = optinalPagamento.orElseThrow(EntityExistsException::new);
         return modelMapper.map(pagamento, PagamentoDto.class);
     }
     public PagamentoDto createPayment (PagamentoDto dto){
@@ -48,7 +48,7 @@ public class PagamentoService{
         pagamento = repository.save(pagamento);
         return modelMapper.map(pagamento, PagamentoDto.class);
     }
-    public void deletePayment(long id){
+    public void deletePayment(long id) {
         repository.deleteById(id);
     }
 }

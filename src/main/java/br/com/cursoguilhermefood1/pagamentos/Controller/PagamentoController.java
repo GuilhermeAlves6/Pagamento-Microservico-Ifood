@@ -1,4 +1,4 @@
-package br.com.cursoguilhermefood1.pagamentos.controller;
+package br.com.cursoguilhermefood1.pagamentos.Controller;
 
 import br.com.cursoguilhermefood1.pagamentos.dto.PagamentoDto;
 import br.com.cursoguilhermefood1.pagamentos.service.PagamentoService;
@@ -15,37 +15,41 @@ import java.util.List;
 @RequestMapping("/pagamentos")
 @RequiredArgsConstructor
 public class PagamentoController {
+
     private final PagamentoService service;
 
     @GetMapping
-    public List<PagamentoDto> listar(){
+    public List<PagamentoDto> Listar(){
         return service.getAll();
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<PagamentoDto> BuscaPorID(@PathVariable @NotNull Long id){
+    public ResponseEntity<PagamentoDto> BuscaPorId(@PathVariable @NotNull Long id){
         PagamentoDto dto = service.getById(id);
 
         return ResponseEntity.ok(dto);
     }
     @PostMapping
     public ResponseEntity<PagamentoDto> cadastrar (@RequestBody @Valid PagamentoDto dto,
-                                                   UriComponentsBuilder uriBuilder){
+                                                   UriComponentsBuilder uriBuider){
         PagamentoDto pagamento = service.createPayment(dto);
-        var uri = uriBuilder.path("/pagamentos/{id}").buildAndExpand(pagamento.getId()).toUri();
+        var uri = uriBuider.path("/pagamentos/{id}").buildAndExpand(pagamento.getId()).toUri();
 
         return ResponseEntity.created(uri).body(pagamento);
+
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<PagamentoDto> atualizarRegistro (@PathVariable @NotNull Long id,
+    public ResponseEntity<PagamentoDto> atualizarResgistro(@PathVariable @NotNull long id,
                                                            @RequestBody @Valid PagamentoDto dto){
         PagamentoDto pagamentoAtualizado = service.updatePayment(id, dto);
-
         return ResponseEntity.ok(pagamentoAtualizado);
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<PagamentoDto> deletarRegistro (@PathVariable @NotNull Long id){
-        service.deletePayment(id);
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<PagamentoDto> deletarResgistro (@PathVariable @NotNull Long id){
+        service.deletePayment(id);
         return ResponseEntity.noContent().build();
+
     }
 }
